@@ -1,0 +1,36 @@
+@startuml Diagrama
+Class JuegoQbert
+class Qbert
+Class Enemigo
+Class Coily
+Class Ugg
+Class Wrongway
+Class Slick 
+Class Sam
+Class Buff
+Class Debuff
+Class BolaVerde
+Class BolaRoja
+Class Evento
+Class Mapa
+Class Elevador
+Class Nivel
+
+JuegoQbert *-- Enemigo
+JuegoQbert *-- Qbert
+JuegoQbert *-- Evento
+Evento <|-- Buff
+Evento <|-- Debuff
+Qbert o-- Buff 
+Qbert o-- Debuff
+Buff <|-- BolaVerde 
+Buff <|-- Elevador 
+Debuff <|-- BolaRoja 
+Enemigo <|-- Coily
+Enemigo <|-- Ugg
+Enemigo <|-- Wrongway
+Enemigo <|-- Slick
+Enemigo <|-- Sam
+JuegoQbert *-- Mapa
+Mapa *-- Nivel
+Nivel *-- Ronda
