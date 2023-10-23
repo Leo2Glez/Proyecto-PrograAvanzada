@@ -1,5 +1,7 @@
 # Proyecto-PrograAvanzada
 
+[![3492262992.webp](https://i.postimg.cc/hjpGYmgm/3492262992.webp)](https://postimg.cc/sQGyQvMf)
+
 ## Descripcion
 Este es mi proyecto del videojuego de Qbert
 ## Dependencias 
