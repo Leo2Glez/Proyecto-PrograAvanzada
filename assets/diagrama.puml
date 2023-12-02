@@ -13,7 +13,6 @@ Class DynamicText{
     +  DynamicText(string, size_t)
     + ~DynamicText()
     + DrawText(SDL_Renderer* renderer, string, int, int, int, int):void
-
     - m_rectangle:SDL_Rect
     - m_texture:SDL_Texture*
     - m_surface:SDL_Surface*
@@ -91,7 +90,7 @@ class SDLApp {
             + GetWindowWidth(): int
             + GetWindowHeight(): int
             + StopAppLoop()
-            + SetEventCallback(func: function<void(void)>)
+            + SetEventCallback(func:function<void(void)>)
             - m_window: SDL_Window*
             - m_renderer: SDL_Renderer*
             - m_maxFrameRate: int
@@ -101,8 +100,7 @@ class SDLApp {
             - m_width: int
             - m_height: int
             - m_EventCallback: function<void(void)>
-            - m_UpdateCallback: 
-            function<void(void)>
+            - m_UpdateCallback: function<void(void)>
             - m_RenderCallback: function<void(void)>
         }
 
