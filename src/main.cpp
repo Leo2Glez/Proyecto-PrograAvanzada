@@ -244,7 +244,7 @@ void HandleRendering(){
 // Punto de entrada del programa
 int main(int argc, char* argv[]){
     // Configurar la aplicación SDL
-    const char* title = "SDL2 Series - Pong";
+    const char* title = "Ping Pong";
     app = new SDLApp(SDL_INIT_VIDEO | SDL_INIT_AUDIO ,title, 20,20,640,480);
     app->SetMaxFrameRate(16);
 
