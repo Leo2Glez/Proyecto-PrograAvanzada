@@ -81,8 +81,8 @@ class SDLApp {
 
      + SDLApp(subsystemFlags: Uint32, title: const char*, x: int, y: int, w: int, h: int)
             + ~SDLApp()
-            + SetUpdateCallback(func: std::function<void(void)>)
-            + SetRenderCallback(func: std::function<void(void)>)
+            + SetUpdateCallback(func: function<void(void)>)
+            + SetRenderCallback(func: function<void(void)>)
             + RunLoop()
             + SetMaxFrameRate(frameRate: int)
             + GetRenderer(): SDL_Renderer*
@@ -91,7 +91,7 @@ class SDLApp {
             + GetWindowWidth(): int
             + GetWindowHeight(): int
             + StopAppLoop()
-            + SetEventCallback(func: std::function<void(void)>)
+            + SetEventCallback(func: function<void(void)>)
             - m_window: SDL_Window*
             - m_renderer: SDL_Renderer*
             - m_maxFrameRate: int
@@ -100,9 +100,10 @@ class SDLApp {
             - m_mouseY: int
             - m_width: int
             - m_height: int
-            - m_EventCallback: std::function<void(void)>
-            - m_UpdateCallback: std::function<void(void)>
-            - m_RenderCallback: std::function<void(void)>
+            - m_EventCallback: function<void(void)>
+            - m_UpdateCallback: 
+            function<void(void)>
+            - m_RenderCallback: function<void(void)>
         }
 
 class GameEntity {
@@ -111,15 +112,15 @@ class GameEntity {
     + ~GameEntity()
     + Update()
     + Render()
-    + AddTexturedRectangleComponent(spritepath: std::string)
-    + AddTexturedRectangleComponent(spritepath: std::string, redcolorkey: int, greencolorkey: int, bluecolorkey: int)
+    + AddTexturedRectangleComponent(spritepath: string)
+    + AddTexturedRectangleComponent(spritepath: string, redcolorkey: int, greencolorkey: int, bluecolorkey: int)
     + AddBoxCollider2D()
     + GetTexturedRectangle(): TexturedRectangle&
     + GetBoxCollider2D(index: size_t): BoxCollider2D&
     + SetPosition(x: int, y: int)
     + SetDimensions(w: int, h: int)
     - m_sprite: TexturedRectangle*
-    - m_colliders: std::vector<BoxCollider2D*>
+    - m_colliders: vector<BoxCollider2D*>
     - m_renderer: SDL_Renderer*
 
 }
