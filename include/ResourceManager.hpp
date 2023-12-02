@@ -1,4 +1,3 @@
-// RUTA DE ARCHIVO: /c:/Users/Lenovo/OneDrive/Documentos/Escuela/LIZETTE/UNI/3Er Semestre/PROGRAMACIÓN AVANZADA/Proyecto-PrograAvanzada-1/include/ResourceManager.hpp
 #ifndef RESOURCE_MANAGER_HPP
 #define RESOURCE_MANAGER_HPP
 

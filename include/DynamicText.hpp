@@ -1,3 +1,4 @@
+// ARCHIVO: /c:/Users/Lenovo/OneDrive/Documentos/Escuela/LIZETTE/UNI/3Er Semestre/PROGRAMACIÓN AVANZADA/Proyecto-PrograAvanzada-1/include/DynamicText.hpp
 #ifndef DYNAMICTEXT_HPP
 #define DYNAMICTEXT_HPP
 

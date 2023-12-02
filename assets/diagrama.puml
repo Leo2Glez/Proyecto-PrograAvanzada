@@ -1,0 +1,145 @@
+@startuml
+
+class AnimatedSprite{
+    + AnimatedSprite(SDL_Renderer* renderer, string)
+    + ~AnimatedSprite()
+    + Dibujar(int, int, int, int):void 
+    + ReproducirFotograma(int, int, int, int):void
+    + Actualizar():void
+    + Renderizar(SDL_Renderer* renderer):void
+}
+
+Class DynamicText{
+    +  DynamicText(string, size_t)
+    + ~DynamicText()
+    + DrawText(SDL_Renderer* renderer, string, int, int, int, int):void
+
+    - m_rectangle:SDL_Rect
+    - m_texture:SDL_Texture*
+    - m_surface:SDL_Surface*
+    - m_ourfont:TTF_Font*
+
+}
+
+class ResourceManager{
+    + GetInstance(): static ResourceManager&
+    + GetSurface(string): SDL_Surface* 
+    - ResourceManager()
+    - ResourceManager(const ResourceManager&)
+    - ResourceManager operator = (const ResourceManager&)
+}
+
+class TexturedRectangle{
+    + TexturedRectangle(SDL_Renderer* renderer, string)
+    + ~TexturedRectangle()
+    + InitDefaults():void
+    + GetSDLRect():SDL_Rect&
+    + GetSDLTexture():SDL_Texture*
+    + GetSDLTexture():SDL_Texture*
+
+    + SetPosition (int, int):void
+    + GetPositionX():int
+    + GetPositionY():int
+    + SetDimensions(int, int):void
+    + GetWidth():int
+    + GetHeight():int
+    + GetRedColorKey():int
+    + GetGreenColorKey():int
+    + GetBlueColorKey():int
+    + Update():void
+    + Render(SDL_Renderer* renderer):void
+
+    - GetRectangle(): inline SDL_Rect
+    - m_rectangle:SDL_Rect
+    - m_texture:SDL_Texture*
+    - m_redColorKey:int
+    - m_greenColorKey:int
+    - m_blueColorKey:int
+}
+
+class ISound {
+
+    + ~ISound() : virtual
+    + PlaySound() : virtual void
+    + StopSound() : virtual void
+    
+}
+
+class Sound : ISound {
+
+    + Sound(string) : Sound
+    + ~Sound() : ~Sound
+    + PlaySound() : void
+    + StopSound() : void
+
+    - m_device: SDL_AudioDeviceID
+    - m_waveStart : Uint8*
+    - m_waveLength : Uint32
+}
+
+class SDLApp {
+
+     + SDLApp(subsystemFlags: Uint32, title: const char*, x: int, y: int, w: int, h: int)
+            + ~SDLApp()
+            + SetUpdateCallback(func: std::function<void(void)>)
+            + SetRenderCallback(func: std::function<void(void)>)
+            + RunLoop()
+            + SetMaxFrameRate(frameRate: int)
+            + GetRenderer(): SDL_Renderer*
+            + GetMouseX(): int
+            + GetMouseY(): int
+            + GetWindowWidth(): int
+            + GetWindowHeight(): int
+            + StopAppLoop()
+            + SetEventCallback(func: std::function<void(void)>)
+            - m_window: SDL_Window*
+            - m_renderer: SDL_Renderer*
+            - m_maxFrameRate: int
+            - m_gameIsRunning: bool
+            - m_mouseX: int
+            - m_mouseY: int
+            - m_width: int
+            - m_height: int
+            - m_EventCallback: std::function<void(void)>
+            - m_UpdateCallback: std::function<void(void)>
+            - m_RenderCallback: std::function<void(void)>
+        }
+
+class GameEntity {
+    + GameEntity()
+    + GameEntity(SDL_Renderer* renderer)
+    + ~GameEntity()
+    + Update()
+    + Render()
+    + AddTexturedRectangleComponent(spritepath: std::string)
+    + AddTexturedRectangleComponent(spritepath: std::string, redcolorkey: int, greencolorkey: int, bluecolorkey: int)
+    + AddBoxCollider2D()
+    + GetTexturedRectangle(): TexturedRectangle&
+    + GetBoxCollider2D(index: size_t): BoxCollider2D&
+    + SetPosition(x: int, y: int)
+    + SetDimensions(w: int, h: int)
+    - m_sprite: TexturedRectangle*
+    - m_colliders: std::vector<BoxCollider2D*>
+    - m_renderer: SDL_Renderer*
+
+}
+
+interface ICollider2D {
+    +Update()
+    +Render()
+}
+
+class BoxCollider2D {
+    -m_colliderRectangle: SDL_Rect*
+    +GetColliderBoundingBox(): SDL_Rect&
+    +IsColliding(collider: BoxCollider2D&): SDL_bool
+    +SetAbsolutePosition(x: int, y: int)
+    +SetDimensions(w: int, h: int)
+    +SetBoundingBoxAutomatically(surface: SDL_Surface*, r: Uint8, g: Uint8, b: Uint8): Vector2D
+    +Update()
+    +Render()
+}
+
+
+@enduml
+
