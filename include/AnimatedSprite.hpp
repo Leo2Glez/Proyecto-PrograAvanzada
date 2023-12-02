@@ -12,15 +12,15 @@ class AnimatedSprite{
         // Destructor
         ~AnimatedSprite();
         // Dibujar
-        void Dibujar(int x, int y, int w, int h);
+        void Draw(int x, int y, int w, int h);
 
         // Seleccionar y reproducir un fotograma específico
-        void ReproducirFotograma(int x, int y,int w, int h, int fotograma);
+        void PlayFrame(int x, int y,int w, int h, int fotograma);
 
         // Actualizar en cada fotograma
-        void Actualizar();
+        void Update();
         // Renderizar
-        void Renderizar(SDL_Renderer*& renderer);
+        void Render(SDL_Renderer*& renderer);
 
     private:
         SDL_Rect m_src;         // Desde donde estamos seleccionando

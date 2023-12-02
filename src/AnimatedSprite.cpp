@@ -1,4 +1,3 @@
-// ARCHIVO: /c:/Users/Lenovo/OneDrive/Documentos/Escuela/LIZETTE/UNI/3Er Semestre/PROGRAMACIÓN AVANZADA/Proyecto-PrograAvanzada-1/src/AnimatedSprite.cpp
 #include <string>
 // Librerías de terceros
 #include <SDL2/SDL.h> // Para Mac, usar <SDL.h>

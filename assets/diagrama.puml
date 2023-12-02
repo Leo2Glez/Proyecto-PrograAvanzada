@@ -3,10 +3,10 @@
 class AnimatedSprite{
     + AnimatedSprite(SDL_Renderer* renderer, string)
     + ~AnimatedSprite()
-    + Dibujar(int, int, int, int):void 
-    + ReproducirFotograma(int, int, int, int):void
-    + Actualizar():void
-    + Renderizar(SDL_Renderer* renderer):void
+    + Draw(int, int, int, int):void 
+    + PlayFrame(int, int, int, int):void
+    + Update():void
+    + Render(SDL_Renderer* renderer):void
 }
 
 Class DynamicText{
@@ -65,7 +65,7 @@ class ISound {
     
 }
 
-class Sound : ISound {
+class ISound {
 
     + Sound(string) : Sound
     + ~Sound() : ~Sound
@@ -139,6 +139,29 @@ class BoxCollider2D {
     +Update()
     +Render()
 }
+
+TexturedRectangle --> ResourceManager
+Sound --> SDL_AudioSpec
+SDLApp --> SDL_Window
+SDLApp --> SDL_Renderer
+ResourceManager --> SDL_Surface
+GameEntity --> Sprite
+GameEntity --> Collider2D
+DynamicText --> SDL_Renderer
+DynamicText --> TTF_Font
+TexturedRectangle --> ResourceManager
+Sound --> SDL_AudioSpec
+SDLApp --> SDL_Window
+SDLApp --> SDL_Renderer
+ResourceManager --> SDL_Surface
+GameEntity --> Sprite
+GameEntity --> Collider2D
+DynamicText --> SDL_Renderer
+DynamicText --> TTF_Font
+AnimatedSprite --> SDL_Renderer
+AnimatedSprite --> SDL_Surface
+AnimatedSprite --> ResourceManager
+Sound --|> ISound
 
 
 @enduml
