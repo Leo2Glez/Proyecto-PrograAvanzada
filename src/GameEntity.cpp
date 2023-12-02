@@ -23,8 +23,8 @@ GameEntity::~GameEntity(){
 }
 
 void GameEntity::Update(){
-    // Update the position of our collider,
-    // to be the same as the position of our Sprite component
+    // Actualiza la posición de nuestro colisionador,
+    // para que sea la misma que la posición de nuestro componente Sprite
     //if(nullptr != m_sprite){
     //    int x = m_sprite->GetPositionX();
     //    int y = m_sprite->GetPositionY();
@@ -70,7 +70,7 @@ BoxCollider2D& GameEntity::GetBoxCollider2D(size_t index){
 }
 
 void GameEntity::SetPosition(int x, int y){
-    // Set the texture position
+    // Establece la posición de la textura
     if(nullptr!=m_sprite){
         m_sprite->SetPosition(x,y);
     }
@@ -82,7 +82,7 @@ void GameEntity::SetPosition(int x, int y){
 }
 
 void GameEntity::SetDimensions(int w, int h){
-    // Set the texture position
+    // Establece las dimensiones de la textura
     if(nullptr!=m_sprite){
         m_sprite->SetDimensions(w,h);
     }

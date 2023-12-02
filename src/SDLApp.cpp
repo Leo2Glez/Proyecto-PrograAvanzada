@@ -8,21 +8,20 @@ SDLApp::SDLApp(Uint32 subsystemFlags, const char* title,int x, int y, int w, int
     m_width= w;
     m_height= h;
 
-    // Default value
+    // Valor predeterminado
     m_maxFrameRate = 60;
 
-    // Initialize the video subsystem.
-    // iF it returns less than 1, then an
-    // error code will be received.
+    // Inicializar el subsistema de video.
+    // Si devuelve menos de 1, se recibirá un código de error.
     if(SDL_Init(subsystemFlags) < 0){
-        std::cout << "SDL could not be initialized: " <<
+        std::cout << "SDL no pudo inicializarse: " <<
                   SDL_GetError();
     }else{
-        std::cout << "SDL video system is ready to go\n";
+        std::cout << "El sistema de video de SDL está listo para usar\n";
     }
-    // Request a window to be created for our platform
-    // The parameters are for the title, x and y position,
-    // and the width and height of the window.
+    // Solicitar la creación de una ventana para nuestra plataforma
+    // Los parámetros son para el título, la posición x e y,
+    // y el ancho y alto de la ventana.
     m_window = SDL_CreateWindow(title,x,y,w,h,SDL_WINDOW_SHOWN);
 
     m_renderer = SDL_CreateRenderer(m_window,-1,SDL_RENDERER_ACCELERATED);
@@ -30,28 +29,28 @@ SDLApp::SDLApp(Uint32 subsystemFlags, const char* title,int x, int y, int w, int
 
 // Destructor
 SDLApp::~SDLApp(){
-    // Destroy our m_window
+    // Destruir nuestra ventana
     SDL_DestroyWindow(m_window);
-    // Quit our SDL application
+    // Cerrar nuestra aplicación de SDL
     SDL_Quit();
 }
 
-// Handle Events
+// Manejar eventos
 void SDLApp::SetEventCallback(std::function<void(void)> func){
     m_EventCallback = func;
 }
-// Handle Events
+// Manejar eventos
 void SDLApp::SetUpdateCallback(std::function<void(void)> func){
     m_UpdateCallback = func;
 }
 
-// Handle Render
+// Manejar renderizado
 void SDLApp::SetRenderCallback(std::function<void(void)> func){
     m_RenderCallback = func;
     
 }
 
-// Loop our application
+// Ejecutar el bucle de nuestra aplicación
 void SDLApp::RunLoop(){
     while(m_gameIsRunning){
         Uint32 start = SDL_GetTicks();
@@ -59,27 +58,27 @@ void SDLApp::RunLoop(){
         // 
         Uint32 buttons;
         buttons = SDL_GetMouseState(&m_mouseX,&m_mouseY);
-        // (1) Handle events first
-        // User specifies what to do in the events callback
+        // (1) Manejar eventos primero
+        // El usuario especifica qué hacer en la devolución de llamada de eventos
         m_EventCallback();
 
-        // (2) Then handle any updates
+        // (2) Luego manejar cualquier actualización
         m_UpdateCallback();
-        // (3) Then handle our rendering
-        // Clear and Draw the Screen
-        // Gives us a clear "canvas"
+        // (3) Luego manejar nuestro renderizado
+        // Limpiar y dibujar la pantalla
+        // Nos da un "lienzo" limpio
         SDL_SetRenderDrawColor(m_renderer,0,0,0,SDL_ALPHA_OPAQUE);
         SDL_RenderClear(m_renderer);
 
-        // Do our drawing
+        // Realizar nuestro dibujo
         SDL_SetRenderDrawColor(m_renderer,255,255,255,SDL_ALPHA_OPAQUE);
-        // What the user specifies to happen during the rendering
-        // stage in this callback function
+        // Lo que el usuario especifica que suceda durante la etapa de renderizado
+        // en esta función de devolución de llamada
         m_RenderCallback();
-        // Finally show what we've drawn
+        // Finalmente mostrar lo que hemos dibujado
         SDL_RenderPresent(m_renderer);
 
-        // Perform the frame capping step
+        // Realizar el paso de limitación de fotogramas
         Uint32 elapsedTime = SDL_GetTicks() - start;
         if(elapsedTime < m_maxFrameRate){
             SDL_Delay(m_maxFrameRate - elapsedTime);

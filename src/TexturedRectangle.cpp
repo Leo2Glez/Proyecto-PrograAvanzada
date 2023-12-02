@@ -1,6 +1,6 @@
 #include <string>
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+// Librerías externas
+#include <SDL2/SDL.h> // Para Mac, usar <SDL.h>
 
 #include "TexturedRectangle.hpp"
 #include "ResourceManager.hpp"
@@ -20,7 +20,7 @@ TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, std::string filepat
    
     SDL_Surface* retrieveSurface = ResourceManager::GetInstance().GetSurface(filepath);
 
-    // Ability to set the color key for our textured surface
+    // Permite establecer la clave de color para nuestra superficie texturizada
     SDL_SetColorKey(retrieveSurface, SDL_TRUE, SDL_MapRGB(retrieveSurface->format, redcolorkey, greencolorkey, bluecolorkey));
 
     m_texture = SDL_CreateTextureFromSurface(renderer,retrieveSurface);
@@ -94,8 +94,8 @@ int TexturedRectangle::GetGreenColorKey(){
 int TexturedRectangle::GetBlueColorKey(){
     return m_blueColorKey;
 }
-// Copy Constructor..
-// Copy assignment operator
+// Constructor de copia..
+// Operador de asignación de copia
 
 void TexturedRectangle::Update(){
 

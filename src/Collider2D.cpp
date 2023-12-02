@@ -1,8 +1,8 @@
 #include "Collider2D.hpp"
 
-// TODO: iostream for now for
-//       reporting errors. Should
-//       log otherwise to separate buffer
+// TODO: iostream por ahora para
+//       reportar errores. Debería
+//       registrar en otro búfer
 #include <iostream>
 
 BoxCollider2D::BoxCollider2D()
@@ -23,7 +23,7 @@ SDL_Rect& BoxCollider2D::GetColliderBoundingBox() {
     return *m_colliderRectangle;
 }
 
-// Detect collision
+// Detectar colisión
 SDL_bool BoxCollider2D::IsColliding(BoxCollider2D& collider)
 {
 
@@ -49,14 +49,14 @@ void BoxCollider2D::SetDimensions(int w, int h){
 Vector2D BoxCollider2D::SetBoundingBoxAutomatically(SDL_Surface* surface, Uint8 r, Uint8 g, Uint8 b){
     
     if(surface==nullptr){
-        std::cerr << "SetBoundingBoxAutomatically: nullptr detected for bounding box surface" << std::endl;
+        std::cerr << "SetBoundingBoxAutomatically: nullptr detectado para la superficie del cuadro delimitador" << std::endl;
     }
     SDL_LockSurface(surface);
     int w= surface->w;
     int h= surface->h;
     int pitch = surface->pitch;
-    int colorchannels = pitch/w;  // typically 3 or 4 
-    // Important to get the correct pixel type here
+    int colorchannels = pitch/w;  // típicamente 3 o 4 
+    // Importante obtener el tipo de píxel correcto aquí
     Uint8* pixels = (Uint8*)surface->pixels; 
     
 //    std::cout << "w: " << w << std::endl;
@@ -68,9 +68,9 @@ Vector2D BoxCollider2D::SetBoundingBoxAutomatically(SDL_Surface* surface, Uint8 
     SDL_UnlockSurface(surface);
     
 
-    // Set to values larger than an image size
-    int xmin= w; // Smallest value in x-axis not part of color key
-    int xmax= 0; // Largest value in x-axis not part of color key
+    // Establecer valores mayores que el tamaño de una imagen
+    int xmin= w; // Valor más pequeño en el eje x que no forma parte de la clave de color
+    int xmax= 0; // Valor más grande en el eje x que no forma parte de la clave de color
     int ymin= h;
     int ymax= 0;
 
@@ -80,10 +80,10 @@ Vector2D BoxCollider2D::SetBoundingBoxAutomatically(SDL_Surface* surface, Uint8 
             if(pixels[y*(w*colorchannels)+x+0] == b &&
                pixels[y*(w*colorchannels)+x+1] == g &&
                pixels[y*(w*colorchannels)+x+2] == r){
-                // pixel must be transparent
+                // el píxel debe ser transparente
             }else{
-                // Update the smallest and largest
-                // values of non-transparent pixels
+                // Actualizar los valores más pequeños y más grandes
+                // de los píxeles no transparentes
                 xmin = std::min(x,xmin);
                 xmax = std::max(x,xmax);
 
@@ -94,10 +94,10 @@ Vector2D BoxCollider2D::SetBoundingBoxAutomatically(SDL_Surface* surface, Uint8 
     }
 
 
-    // Update our bounding box
-    // Note that the max will always be greater than
-    // the minimum value
-    // For width, we need to divide by the pitch of our object
+    // Actualizar nuestro cuadro delimitador
+    // Tener en cuenta que el máximo siempre será mayor que
+    // el valor mínimo
+    // Para el ancho, necesitamos dividir por el paso de nuestro objeto
     int scale = (1200/300);
     m_colliderRectangle->w = ((xmax/colorchannels - xmin/colorchannels)/(scale));
     m_colliderRectangle->h = (ymax - ymin)/scale;

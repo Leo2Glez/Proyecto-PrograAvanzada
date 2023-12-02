@@ -1,7 +1,7 @@
-// On linux compile with:
+// En Linux compilar con:
 // g++ -std=c++17 main.cpp -o prog -lSDL2 -lSDL2_image -ldl
 
-// C++ Standard Libraries
+// Bibliotecas estándar de C++
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,12 +16,12 @@
 #include "Sound.hpp"
 #include "DynamicText.hpp"
 
-// One possibility of creating as a global our app
+// Posibilidad de crear nuestra aplicación como global
 SDLApp* app;
 
-// Create two objects to render
-// Eventually, we will want some sort of factory
-// to manage object creation in our App...
+// Crear dos objetos para renderizar
+// Eventualmente, querremos algún tipo de fábrica
+// para gestionar la creación de objetos en nuestra aplicación...
 GameEntity* leftpaddle;
 GameEntity* rightpaddle;
 GameEntity* ball;
@@ -38,10 +38,10 @@ struct GameState{
     int rightScore;
 };
 
-// Holds global state of the currently playing game
+// Almacena el estado global del juego actual
 GameState* gameState;
 
-// Handle the left paddle movement
+// Maneja el movimiento de la paleta izquierda
 void HandleLeftPaddle(){
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     int leftpaddlex  =  leftpaddle->GetTexturedRectangle().GetPositionX();
@@ -56,7 +56,7 @@ void HandleLeftPaddle(){
     }
 }
 
-// Handle the right paddle movement
+// Maneja el movimiento de la paleta derecha
 void HandleRightPaddle(){
     const Uint8 *state = SDL_GetKeyboardState(NULL);
     int rightpaddlex = rightpaddle->GetTexturedRectangle().GetPositionX();
@@ -73,47 +73,47 @@ void HandleRightPaddle(){
 
 }
 
-// Callback function for handling events
+// Función de devolución de llamada para manejar eventos
 void HandleEvents(){
     SDL_Event event;
 
-    // (1) Handle Input
-    // Start our event loop
+    // (1) Manejar la entrada
+    // Iniciar nuestro bucle de eventos
     while(SDL_PollEvent(&event)){
-        // Handle each specific event
-        if(event.type == SDL_QUIT){
+        // Manejar cada evento específico
+        if(event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE){
             app->StopAppLoop();
         }
     }
-    // Handle paddle movement
+    // Manejar el movimiento de las paletas
     HandleLeftPaddle();
     HandleRightPaddle();
 }
 
-// Position the ball in the center of the court
+// Posiciona la pelota en el centro de la cancha
 void SetBallPositionCenter(){
     int ballXposition=app->GetWindowWidth()/2-(ball->GetTexturedRectangle().GetWidth()/2);
     int ballYposition=app->GetWindowHeight()/2-(ball->GetTexturedRectangle().GetHeight()/2);
 
-    // Set the ball position
+    // Establecer la posición de la pelota
     ball->SetPosition(ballXposition,ballYposition);
 }
 
-// Handle paddle collision
+// Maneja la colisión con las paletas
 void HandlePaddleCollision(){
-    // Grabbing the ball position, and then
-    // we will update it based on the direction the ball is traveling
+    // Obtener la posición de la pelota y luego
+    // la actualizaremos en función de la dirección en la que se mueve la pelota
     int ballXposition = ball->GetTexturedRectangle().GetPositionX();
     int ballYposition = ball->GetTexturedRectangle().GetPositionY();
 
-    // Detection of collision within a paddle
+    // Detección de colisión con una paleta
     if(ballXposition >= 20 &&
        gameState->ballXDirection == -1 &&
        leftpaddle->GetBoxCollider2D(0).IsColliding(ball->GetBoxCollider2D(0)))
     { 
         gameState->ballXDirection = 1;
         CollisionSound->PlaySound();
-        // Detect where the collision happened
+        // Detectar dónde ocurrió la colisión
         int paddleMidPoint = leftpaddle->GetTexturedRectangle().GetPositionY()+100;
         if(paddleMidPoint <= ballYposition){
             gameState->ballYDirection = -1; 
@@ -127,7 +127,7 @@ void HandlePaddleCollision(){
     { 
         gameState->ballXDirection = -1;
         CollisionSound->PlaySound();
-        // Detect where the collision happened
+        // Detectar dónde ocurrió la colisión
         int paddleMidPoint = rightpaddle->GetTexturedRectangle().GetPositionY()+100;
         if(paddleMidPoint <= ballYposition){
             gameState->ballYDirection = -1; 
@@ -136,84 +136,84 @@ void HandlePaddleCollision(){
         }
     }
 
-    // Set the ball position
+    // Establecer la posición de la pelota
     ball->SetPosition(ballXposition,ballYposition);
 }
 
-// Handle boundaries along x and y axis of the game board
+// Maneja los límites a lo largo del eje x e y del tablero de juego
 void HandleBoundariesAndScoring(){
-    // Grabbing the ball position, and then
-    // we will update it based on the direction the ball is traveling
+    // Obtener la posición de la pelota y luego
+    // la actualizaremos en función de la dirección en la que se mueve la pelota
     int ballXposition = ball->GetTexturedRectangle().GetPositionX();
     int ballYposition = ball->GetTexturedRectangle().GetPositionY();
 
-    // Set ball boundaries (so we don't fly off the playing field)
+    // Establecer los límites de la pelota (para que no salga del campo de juego)
     if(ballYposition > app->GetWindowHeight()){
         gameState->ballYDirection = -1;
     }else if(ballYposition < 0){
         gameState->ballYDirection = 1;
     }
-    // Set the ball position
+    // Establecer la posición de la pelota
     ball->SetPosition(ballXposition,ballYposition);
 
-    // Handle the case of scoring
-    // The ball will be centered back to the screen if
-    // a score takes place
+    // Manejar el caso de puntuación
+    // La pelota se centrará nuevamente en la pantalla si
+    // se produce una puntuación
     if(ballXposition > app->GetWindowWidth() + 80){
         ScoreSound->PlaySound();
         gameState->ballXDirection = -1;
         gameState->leftScore+=1;
-        // Recenter ball to start
+        // Recentrar la pelota al inicio
         SetBallPositionCenter();
     }else if(ballXposition < -100){
         ScoreSound->PlaySound();
         gameState->ballXDirection = 1;
         gameState->rightScore+=1;
-        // Recenter ball to start
+        // Recentrar la pelota al inicio
         SetBallPositionCenter();
     }
 
 }
 
 
-// Handle the ball moving and it's direction
+// Maneja el movimiento de la pelota y su dirección
 void HandleBallMoving(){
-    // Grabbing the ball position, and then
-    // we will update it based on the direction the ball is traveling
+    // Obtener la posición de la pelota y luego
+    // la actualizaremos en función de la dirección en la que se mueve la pelota
     int ballXposition = ball->GetTexturedRectangle().GetPositionX();
     int ballYposition = ball->GetTexturedRectangle().GetPositionY();
-    // Move the ball left-to-right
+    // Mover la pelota de izquierda a derecha
     if(gameState->ballXDirection == 1 ){
         ballXposition+= gameState->movementSpeed;
     }else{
         ballXposition-= gameState->movementSpeed;
     }
-    // Move the ball up-and-down
+    // Mover la pelota de arriba a abajo
     if(gameState->ballYDirection == 1 ){
         ballYposition+= gameState->movementSpeed;
     }else{
         ballYposition-= gameState->movementSpeed;
     }
 
-    // Set the ball position
+    // Establecer la posición de la pelota
     ball->SetPosition(ballXposition,ballYposition);
 }
 
-// Update callback
+// Función de actualización
 void HandleUpdate(){
-    // Grabbing the ball position, and then
-    // we will update it based on the direction the ball is traveling
+    // Obtener la posición de la pelota y luego
+    // la actualizaremos en función de la dirección en la que se mueve la pelota
     int ballXposition = ball->GetTexturedRectangle().GetPositionX();
     int ballYposition = ball->GetTexturedRectangle().GetPositionY();
-    // Handle Ball Moving
+    // Manejar el movimiento de la pelota
     HandleBallMoving();
-    // Handle Boundaries and scoring
+    // Manejar los límites y la puntuación
     HandleBoundariesAndScoring();
-    // Handle Collision with paddles 
+    // Manejar la colisión con las paletas
     HandlePaddleCollision();
     
-    // A bit of a hack, but we want to eventually stop
-    // our sounds after some duration.
+    // Un poco de trampa, pero queremos detener
+    // nuestros sonidos después de cierta duración.
     static int currentTime   = SDL_GetTicks();
     static int lastTime      = SDL_GetTicks();
     currentTime = SDL_GetTicks();
@@ -224,31 +224,31 @@ void HandleUpdate(){
     }
 }
 
-// Handle the rendering of the game entities
+// Maneja el renderizado de las entidades del juego
 void HandleRendering(){    
-    // Render our objects
+    // Renderizar nuestros objetos
     leftpaddle->Render();
     rightpaddle->Render();
     ball->Render();
-    // Render the text after drawing the objects
+    // Renderizar el texto después de dibujar los objetos
     DynamicText leftScore("./assets/fonts/8bitOperatorPlus8-Regular.ttf",32);
     DynamicText rightScore("./assets/fonts/8bitOperatorPlus8-Regular.ttf",32);
 
-    std::string lScore = "left: " + std::to_string(gameState->leftScore);
-    std::string rScore= "right: " + std::to_string(gameState->rightScore);
+    std::string lScore = "izquierda: " + std::to_string(gameState->leftScore);
+    std::string rScore= "derecha: " + std::to_string(gameState->rightScore);
 
     leftScore.DrawText(app->GetRenderer(),lScore,0,0,100,50);
     rightScore.DrawText(app->GetRenderer(),rScore,500,0,100,50);
 }
 
-// Entry point of the program
+// Punto de entrada del programa
 int main(int argc, char* argv[]){
-    // Setup the SDLApp
+    // Configurar la aplicación SDL
     const char* title = "SDL2 Series - Pong";
     app = new SDLApp(SDL_INIT_VIDEO | SDL_INIT_AUDIO ,title, 20,20,640,480);
     app->SetMaxFrameRate(16);
 
-    // Create any objects in our scene
+    // Crear objetos en nuestra escena
     leftpaddle = new GameEntity(app->GetRenderer());
     leftpaddle->AddTexturedRectangleComponent("./assets/images/leftpaddle.bmp");
     leftpaddle->GetTexturedRectangle().SetDimensions(20,200);
@@ -270,19 +270,19 @@ int main(int argc, char* argv[]){
     ball->GetBoxCollider2D(0).SetDimensions(ball->GetTexturedRectangle().GetWidth(), ball->GetTexturedRectangle().GetHeight());
     ball->SetPosition(app->GetWindowWidth()/2,app->GetWindowHeight()/2);
 
-    // Setup our sounds
+    // Configurar nuestros sonidos
     CollisionSound = new Sound("./assets/sounds/Collide.wav");
-    // TODO: For now, we setup the device 'per sound'
-    //       'may' make sense if we have several devices, or
-    //       'capture' devices, likely we'll want to refactor
-    //       this however.
+    // TODO: Por ahora, configuramos el dispositivo 'por sonido'
+    //       'puede' tener sentido si tenemos varios dispositivos, o
+    //       dispositivos de 'captura', probablemente querremos refactorizar
+    //       esto en algún momento.
     CollisionSound->SetupDevice();
     
-    // Setupt the score sound
+    // Configurar el sonido de puntuación
     ScoreSound= new Sound("./assets/sounds/Score.wav");
     ScoreSound->SetupDevice();
 
-    // Setup the Game State
+    // Configurar el estado del juego
     gameState = new GameState;
     gameState->movementSpeed    = 5.0f;
     gameState->ballSpeed        = 2.0f;
@@ -291,14 +291,14 @@ int main(int argc, char* argv[]){
     gameState->leftScore        = 0;
     gameState->rightScore       = 0;
 
-    // Set callback functions
+    // Establecer las funciones de devolución de llamada
     app->SetEventCallback(HandleEvents);
     app->SetUpdateCallback(HandleUpdate);
     app->SetRenderCallback(HandleRendering);
-    // Run our application until terminated
+    // Ejecutar nuestra aplicación hasta que se termine
     app->RunLoop();
 
-    // Clean up our application
+    // Limpiar nuestra aplicación
     delete app;
     delete leftpaddle;
     delete rightpaddle;

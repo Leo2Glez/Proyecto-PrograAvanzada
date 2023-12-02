@@ -1,6 +1,7 @@
+// ARCHIVO: /c:/Users/Lenovo/OneDrive/Documentos/Escuela/LIZETTE/UNI/3Er Semestre/PROGRAMACIÓN AVANZADA/Proyecto-PrograAvanzada-1/src/AnimatedSprite.cpp
 #include <string>
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+// Librerías de terceros
+#include <SDL2/SDL.h> // Para Mac, usar <SDL.h>
 
 #include "AnimatedSprite.hpp"
 #include "ResourceManager.hpp"
@@ -17,7 +18,7 @@ AnimatedSprite::~AnimatedSprite(){
 }
 
 void AnimatedSprite::Draw(int x, int y, int w, int h){
-    // Create a rectangle
+    // Crear un rectángulo
     m_dst.x = x;
     m_dst.y = y;
     m_dst.w = w;
