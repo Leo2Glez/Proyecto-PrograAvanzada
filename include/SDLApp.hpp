@@ -3,8 +3,8 @@
 
 #include <functional>
 
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+// Terceros
+#include <SDL2/SDL.h> // Para Mac, usar <SDL.h>
 
 class SDLApp{
     public:
@@ -12,45 +12,45 @@ class SDLApp{
         SDLApp(Uint32 subsystemFlags, const char* title,int x, int y, int w, int h);
         // Destructor
         ~SDLApp();
-        // Handle Events
+        // Manejar eventos
         void SetEventCallback(std::function<void(void)> func);
-        // Handle Updates
+        // Manejar actualizaciones
         void SetUpdateCallback(std::function<void(void)> func);
-        // Handle Render
+        // Manejar renderizado
         void SetRenderCallback(std::function<void(void)> func);
-        // Loop our application
+        // Ejecutar el bucle principal de la aplicación
         void RunLoop();
-        // Set the maximum render rate of each frame
-        // This is a frame cap in terms of milliseconds that
-        // each iteration of our main loop will not exceed
+        // Establecer la velocidad máxima de renderizado de cada fotograma
+        // Esto es un límite de fotogramas en términos de milisegundos que
+        // cada iteración de nuestro bucle principal no superará
         void SetMaxFrameRate(int frameRate);
-        // Retrive the renderer
+        // Obtener el renderizador
         SDL_Renderer* GetRenderer() const;
-        // Return mouse positions
+        // Obtener las posiciones del ratón
         int GetMouseX();
         int GetMouseY();
-        // Return the window dimensions
+        // Obtener las dimensiones de la ventana
         int GetWindowWidth();
         int GetWindowHeight();
-        // Stop the main loop of our application
+        // Detener el bucle principal de nuestra aplicación
         void StopAppLoop();
 
     private:
-            // Pointer to our SDL Window
+            // Puntero a nuestra ventana SDL
             SDL_Window* m_window=nullptr;
-            // Pointer to our SDL renderer
+            // Puntero a nuestro renderizador SDL
             SDL_Renderer* m_renderer = nullptr;
-            // Set the maximum frame cap;
+            // Establecer el límite máximo de fotogramas;
             int m_maxFrameRate;
-            // Infinite loop for our application
+            // Bucle infinito para nuestra aplicación
             bool m_gameIsRunning = true;
-            // Store mouse Coordinates by default
+            // Almacenar las coordenadas del ratón de forma predeterminada
             int m_mouseX;
             int m_mouseY;
-            // Store width and height of window
+            // Almacenar el ancho y alto de la ventana
             int m_width;
             int m_height;
-            // Store our callback functions
+            // Almacenar nuestras funciones de devolución de llamada
             std::function<void(void)> m_EventCallback;
             std::function<void(void)> m_UpdateCallback;
             std::function<void(void)> m_RenderCallback;

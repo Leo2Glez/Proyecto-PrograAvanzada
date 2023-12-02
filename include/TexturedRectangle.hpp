@@ -2,8 +2,8 @@
 #define TEXTUREDRECTANGLE_HPP
 
 #include <string>
-// Third Party
-#include <SDL2/SDL.h> // For Mac, use <SDL.h>
+// Librería de terceros
+#include <SDL2/SDL.h> // Para Mac, usar <SDL.h>
 
 class TexturedRectangle{
     public:
@@ -28,13 +28,13 @@ class TexturedRectangle{
         int GetRedColorKey();
         int GetGreenColorKey();
         int GetBlueColorKey();
-        // Copy Constructor..
-        // Copy assignment operator
+        // Constructor de copia..
+        // Operador de asignación de copia
 
 
-        // Update every frame
+        // Actualizar en cada fotograma
         void Update();
-        // Render
+        // Renderizar
         void Render(SDL_Renderer* renderer);
     private:
         inline SDL_Rect GetRectangle() const { return m_rectangle; }
